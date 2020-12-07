@@ -7,17 +7,8 @@
     <hr class="my-4">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
     <p class="lead">
-      <a class="btn btn-primary btn-lg" (click)="registerToggle()" href="#" role="button">Register</a>
+      <a class="btn btn-primary btn-lg" (click)="registerToggle()" routerLink='/register' role="button">Register</a>
     </p>
   </div>
-
-  <div *ngIf="registermode">
-    <div class="row justify-content-center .mt-2">
-      <div class="col-4">
-        <app-register></app-register>
-      </div>
-    </div>
-  </div>
-
 
 </div>
