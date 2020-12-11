@@ -21,9 +21,14 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { FooterComponent } from './footer/footer.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { CommonModule } from '@angular/common';
+import { MemberDetailsComponent } from './members/member-details/member-details.component';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     NavbarComponent,
     HomeComponent,
@@ -35,7 +40,9 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
       DashboardComponent,
       TestErrorsComponent,
       NotFoundComponent,
-      ServerErrorComponent
+      ServerErrorComponent,
+      FooterComponent,
+      MemberDetailsComponent
    ],
   imports: [
     BrowserModule,
@@ -43,11 +50,14 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    CommonModule,
+    NgxGalleryModule
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true
-  }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

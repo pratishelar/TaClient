@@ -1,1 +1,35 @@
-<p>memberlist works!</p>
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let member of members">
+
+            <div class="item-1">
+                <div class="img-container">
+                    <a routerLink="/members/{{member.username}}"><img src="{{member.photoUrl}}" /></a>
+                </div>
+                <div class="robin-key">
+                    <p>
+                        <span>{{member.firstName}}</span>
+                        <span>{{member.lastName}}</span>
+                    </p>
+
+                    <ul>
+                        <li><i class="fa fa-check"></i></li>
+                        <li><a href="#"><i class="fa fa-plus"></i></a></li>
+                    </ul>
+                </div>
+
+                <ul class="follow-list">
+                    <li><a href="#"><i class="fa fa-child"></i> {{member.age}}</a></li>
+                    <li><a href="#"><i class="fa fa-male" *ngIf="member.gender == 'male'"></i> <i class="fa fa-female" *ngIf="member.gender == 'female'"></i> {{member.gender}}</a></li>
+                    <!-- <li><a href="#"><i class="fa fa-building-o"></i> </a></li>
+                    <li><a href="#"><i class="fa fa-comments"></i> </a></li> -->
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

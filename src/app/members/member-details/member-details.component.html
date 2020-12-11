@@ -1,3 +1,59 @@
-<p>
-  member-details works!
-</p>
+<div class=" emp-profile">
+    <form method="post">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="profile-img">
+                    <img src="{{member.photoUrl || './assets/img/user.png'}}" alt="" />
+                </div>
+                <div class="profile-work">
+                    <p>Location : {{member.city}}, {{member.country}} </p>
+                    <p>Age : {{member.age}} </p>
+                    <p>Last Active : {{member.lastActive}} </p>
+                    <p>Account Created : {{member.created}} </p>
+
+
+                </div>
+            </div>
+            <div class="col-md-8">
+
+                <div class="profile-head">
+                    <h2>
+                        <span>{{member.firstName}} </span>
+                        <span>{{member.lastName}} </span>
+                    </h2>
+                    <h5>
+                        <span>{{member.username}} </span>
+                    </h5>
+                </div>
+
+                <div class="tabs">
+                    <tabset>
+                        <tab heading="About" id="tab1">
+                            <div class="container mt-3">
+                                <div class="row">
+                                    <div class="col-md-6 mt-3 mb-3">
+                                        <p>Location : {{member.city}}, {{member.country}} </p>
+                                        <p>Age : {{member.age}} </p>
+                                    </div>
+                                    <div class="col-md-6 mt-3 mb-3">
+                                        <p>Last Active : {{member.lastActive}} </p>
+                                        <p>Account Created : {{member.created}} </p>
+                                    </div>
+                                </div>
+
+                                <h3>Photos</h3>
+
+                                <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"
+                                    style="display: inline-block; margin-bottom: 20px;"></ngx-gallery>
+                            </div>
+                        </tab>
+
+                        <tab heading="Messages">Photos</tab>
+                    </tabset>
+                </div>
+            </div>
+
+        </div>
+
+    </form>
+</div>
