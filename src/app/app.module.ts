@@ -26,6 +26,11 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { CommonModule } from '@angular/common';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 @NgModule({
   declarations: [	
@@ -52,7 +57,14 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
     FormsModule,
     SharedModule,
     CommonModule,
-    NgxGalleryModule
+    FlatpickrModule.forRoot(),
+    NgxGalleryModule,
+    NgxChartsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    NgbModule
+  ],
+  exports:[
+    NgxChartsModule 
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
