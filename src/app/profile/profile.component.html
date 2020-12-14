@@ -1,3 +1,93 @@
-<p>
-  profile works!
-</p>
+<div class=" emp-profile">
+
+    <div class="row">
+      <div class="col-md-4">
+        <div class="profile-img">
+          <img src="{{member.photoUrl || './assets/img/user.png'}}" alt="" />
+        </div>
+        <div class="profile-work">
+          <p>Location : {{member.city}}, {{member.country}} </p>
+          <p>Age : {{member.age}} </p>
+          <p>Last Active : {{member.lastActive}} </p>
+          <p>Account Created : {{member.created}} </p>
+          
+        </div>
+
+      </div>
+
+      <div class="col-md-8">
+       
+        <div class="profile-head">
+          <h2>
+            <span>{{member.firstName}} </span>
+            <span>{{member.lastName}} </span>
+          </h2>
+          <h5>
+            <span>{{member.username}} </span>
+          </h5>
+        </div>
+
+       
+
+        <div class="tabs">
+          <tabset type="pills">
+            <tab heading="About" id="tab1">
+              <div class="container mt-3">
+                <div class="alert alert-info" *ngIf="editForm.dirty">
+                  <strong>Information: </strong> you have made changes. Any unsaved changes will be lost 
+                </div>
+                <form #editForm="ngForm" (ngSubmit)="updateMember()">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="firstname">First Name</label>
+                      <input type="text" name="firstName" [(ngModel)]="member.firstName" class="form-control"
+                        id="firstname" placeholder="First Name">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="lastname">LastName</label>
+                      <input type="text" name="lastName" [(ngModel)]="member.lastName" class="form-control"
+                        id="lastname" placeholder="Last Name">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="city">City</label>
+                      <input type="text" name="city" [(ngModel)]="member.city" class="form-control" id="city"
+                        placeholder="Country">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="country">Country</label>
+                      <input type="text" name="country" [(ngModel)]="member.country" class="form-control" id="country"
+                        placeholder="Country">
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="DOB">DOB</label>
+                      <input type="text" name="age" [(ngModel)]="member.age" class="form-control" id="DOB"
+                        placeholder="Date of Birth">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="gender">Gender</label>
+                      <input type="text" name="gender" [(ngModel)]="member.gender" class="form-control" id="gender"
+                        placeholder="Gender">
+                    </div>
+                  </div>
+
+                  <button type="submit" [disabled]="!editForm.dirty" class="btn btn-primary btn-block mt-3">Save</button>
+                </form>
+              </div>
+            </tab>
+
+            <tab heading="Photos">
+              Photos
+            </tab>
+
+          </tabset>
+        </div>
+      </div>
+    </div>
+
+</div>
