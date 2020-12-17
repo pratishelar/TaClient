@@ -12,9 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavbarComponent implements OnInit {
   model: any = {};
-
-  // loggedIn: boolean = false;
-  
+  user:any ={};
 
   constructor(
     public accountservice: AccountService,
@@ -23,7 +21,7 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.getcurrentUser();
+   this.getcurrentUser();
   }
 
   logout() {
@@ -31,14 +29,15 @@ export class NavbarComponent implements OnInit {
     this.accountservice.logout();
   }
 
-  // getcurrentUser() {
-  //   this.accountservice.currentUser$.subscribe(
-  //     (user) => {
-  //       this.loggedIn = !!user;
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     }
-  //   );
-  // }
+  getcurrentUser() {
+    this.accountservice.currentUser$.subscribe(
+      (user) => {
+        this.user = user;
+        console.log(this.user);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

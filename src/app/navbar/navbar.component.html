@@ -23,16 +23,28 @@
                     </li>
                 </ng-container>
             </ul>
-
+           
             <div *ngIf="accountservice.currentUser$ | async" class="btn-group" dropdown>
-                <button id="button-basic" dropdownToggle type="button" class="btn btn-outline-light dropdown-toggle"
+               
+                <button id="button-basic" dropdownToggle type="button" class="btn btn-link"
                     aria-controls="dropdown-basic">
-                    Welcome User <span class="caret"></span>
+                   
+                     <div class="image_outer_container">
+                        <div class="green_icon"></div>
+                        <div class="image_inner_container">
+                            <img src="{{user.photoUrl}}" alt="{{user.username}}">
+                        </div>
+                    </div>
+                    <!-- <div class="name"> {{user.username}}</div> -->
                 </button>
                 <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
                     <li role="menuitem"><a class="dropdown-item" routerLink="/profile" >Profile</a></li>
                     <li role="menuitem"><a class="dropdown-item" (click)='logout()'>logout</a></li>
                 </ul>
+               
+
+               
+
             </div>
 
             <a *ngIf="(accountservice.currentUser$ | async) === null" class="nav-link" routerLink='/login'>Login</a>

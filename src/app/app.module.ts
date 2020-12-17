@@ -33,7 +33,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-
+import { FileUploadModule} from 'ng2-file-upload';
 
 @NgModule({
   declarations: [	
@@ -65,7 +65,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     NgxChartsModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
     NgbModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    FileUploadModule
   ],
   exports:[
     NgxChartsModule,
