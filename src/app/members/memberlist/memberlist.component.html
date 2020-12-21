@@ -6,7 +6,7 @@
 
             <div class="item-1">
                 <div class="img-container">
-                    <a routerLink="/members/{{member.username}}"><img src="{{member.photoUrl}}" /></a>
+                    <a routerLink="/members/{{member.username}}"><img src="{{member.photoUrl || './assets/img/user.png'}}" /></a>
                 </div>
                 <div class="robin-key">
                     <p>
@@ -22,7 +22,7 @@
 
                 <ul class="follow-list">
                     <li><a href="#"><i class="fa fa-child"></i> {{member.age}}</a></li>
-                    <li><a href="#"><i class="fa fa-male" *ngIf="member.gender == 'male'"></i> <i class="fa fa-female" *ngIf="member.gender == 'female'"></i> {{member.gender}}</a></li>
+                    <li><a href="#"><i class="fa fa-male" *ngIf="member.gender == 'male' || member.gender == 'Male'"></i> <i class="fa fa-female" *ngIf="member.gender == 'female' || member.gender == 'Female' "></i> {{member.gender}}</a></li>
                     <!-- <li><a href="#"><i class="fa fa-building-o"></i> </a></li>
                     <li><a href="#"><i class="fa fa-comments"></i> </a></li> -->
                 </ul>

@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class RegisterComponent implements OnInit {
   model: any = {};
+  validationErrors: string[] = [];
 
   constructor(private accountService: AccountService, private router: Router, private toastr: ToastrService) {}
 
@@ -23,7 +24,7 @@ export class RegisterComponent implements OnInit {
       },
       (error) => {
         console.log(error);
-        this.toastr.error(error.error);
+        this.validationErrors = error;
       }
     );
   }

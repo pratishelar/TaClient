@@ -6,6 +6,7 @@ import { take } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
+import { Photo } from '../_models/Photo';
 
 @Component({
   selector: 'app-profile',
@@ -53,8 +54,13 @@ export class ProfileComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item, response, status, header) => {
       if (response) {
-        const photo = JSON.parse(response);
+        const photo: Photo = JSON.parse(response);
         this.member.photos.push(photo);
+        if(photo.isMain){
+          this.user.photoUrl = photo.url;
+          this.member.photoUrl = photo.url;
+          this.accountService.setCurrentUser(this.user); 
+        }
       }
     };
   }
