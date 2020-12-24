@@ -1,12 +1,37 @@
 <div class="container">
 
+    <form class="form-inline" #form="ngForm" (ngSubmit)="loadMembers()" autocomplete="off">
+        <label class="my-1 mr-2" for="minage">Age From</label>
+        <input type="number" [(ngModel)]="userParams.minAge" name="minAge" class="form-control form-control-sm mr-sm-2"  id="minage">
+
+        <label class="my-1 mr-2" for="maxage">Age To</label>
+        <input type="number" [(ngModel)]="userParams.maxAge" name="maxAge" class="form-control form-control-sm mr-sm-2" id="maxage">
+
+        <button type="submit" class="btn btn-primary btn-sm my-1 mr-2">Filter</button>
+        <button type="button" (click)="resetFilters()" class="btn btn-sm btn-outline-secondary my-1">Reset</button>
+
+        <div class="col">
+        <div class="btn-group float-right">
+            <div class="btn btn-primary btn-sm" name="orderBy" (click)="loadMembers()" btnRadio="lastActive" [(ngModel)]="userParams.orderBy">
+                Last Active
+            </div>
+            <div class="btn btn-primary btn-sm" name="orderBy" (click)="loadMembers()" btnRadio="created" [(ngModel)]="userParams.orderBy">
+                Newest Member
+            </div>
+        </div>
+    </div>
+
+    </form>
+
+
     <div class="row">
 
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let member of members$ | async">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let member of members">
 
             <div class="item-1">
                 <div class="img-container">
-                    <a routerLink="/members/{{member.username}}"><img src="{{member.photoUrl || './assets/img/user.png'}}" /></a>
+                    <a routerLink="/members/{{member.username}}"><img
+                            src="{{member.photoUrl || './assets/img/user.png'}}" /></a>
                 </div>
                 <div class="robin-key">
                     <p>
@@ -22,7 +47,10 @@
 
                 <ul class="follow-list">
                     <li><a href="#"><i class="fa fa-child"></i> {{member.age}}</a></li>
-                    <li><a href="#"><i class="fa fa-male" *ngIf="member.gender == 'male' || member.gender == 'Male'"></i> <i class="fa fa-female" *ngIf="member.gender == 'female' || member.gender == 'Female' "></i> {{member.gender}}</a></li>
+                    <li><a href="#"><i class="fa fa-male"
+                                *ngIf="member.gender == 'male' || member.gender == 'Male'"></i> <i class="fa fa-female"
+                                *ngIf="member.gender == 'female' || member.gender == 'Female' "></i>
+                            {{member.gender}}</a></li>
                     <!-- <li><a href="#"><i class="fa fa-building-o"></i> </a></li>
                     <li><a href="#"><i class="fa fa-comments"></i> </a></li> -->
                 </ul>
@@ -30,6 +58,13 @@
 
         </div>
 
+    </div>
+
+    <div class="d-flex justify-content-center" *ngIf="pagination">
+        <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+            [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;"
+            nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
+        </pagination>
     </div>
 
 </div>

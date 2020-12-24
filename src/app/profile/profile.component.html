@@ -18,8 +18,8 @@
       <div class="profile-work">
         <p>Location : {{member.city}}, {{member.country}} </p>
         <p>Age : {{member.age}} </p>
-        <p>Last Active : {{member.lastActive}} </p>
-        <p>Account Created : {{member.created}} </p>
+        <p>Last Active : {{member.lastActive |timeago}} </p>
+        <p>Account Created : {{member.created | date}} </p>
 
       </div>
 
