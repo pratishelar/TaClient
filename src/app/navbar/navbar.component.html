@@ -23,9 +23,13 @@
                     </li>
                 </ng-container>
             </ul>
+
+           
            
             <div *ngIf="accountservice.currentUser$ | async" class="btn-group" dropdown>
-               
+                <button class="btn btn-link" routerLink='/messageschat' routerLinkActive="active">
+                    <i class="fa fa-comments" aria-hidden="true"></i>
+                </button>
                 <button id="button-basic" dropdownToggle type="button" class="btn btn-link"
                     aria-controls="dropdown-basic">
                    

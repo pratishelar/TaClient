@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MemberlistComponent } from './members/memberlist/memberlist.component';
 import { MemberDetailsComponent } from './members/member-details/member-details.component';
-import { MessagesComponent } from './messages/messages.component';
 import { CreateTaComponent } from './create-ta/create-ta.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -13,6 +12,9 @@ import { AuthGuard } from './guards/auth.guard';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MessageComponent } from './message/message.component';
+import { MessageChatComponent } from './message-chat/message-chat.component';
+import { MemberDetailedResolver } from './_resolvers/member-detailed.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -22,8 +24,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'members', component: MemberlistComponent },
-      { path: 'members/:username', component: MemberDetailsComponent },
-      { path: 'messages', component: MessagesComponent },
+      { path: 'members/:username', component: MemberDetailsComponent, resolve: {member: MemberDetailedResolver} },
+      { path: 'messages', component: MessageComponent },
+      { path: 'messageschat', component: MessageChatComponent },
       { path: 'create', component: CreateTaComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'dashboard', component: DashboardComponent }

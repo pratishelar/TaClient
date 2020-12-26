@@ -1,5 +1,5 @@
 <div class=" emp-profile">
-    <form method="post">
+    
         <div class="row">
             <div class="col-md-4">
                 <div class="profile-img">
@@ -48,8 +48,94 @@
                             </div>
                         </tab>
 
-                        <tab heading="Messages">Messages
-                         
+                        <tab heading="Messages">
+
+                            <div class="container bootstrap snippets bootdeys">
+                                <div class="col-md-12 col-xs-12 col-md-offset-2">
+                                    <!-- Panel Chat -->
+                                    <div class="panel" id="chat">
+
+                                        <div *ngIf="messages?.length === 0">
+                                            No Message to display
+                                        </div>
+
+                                        <div class="panel-body" *ngIf="messages?.length > 0">
+                                            <div class="chats">
+                                                <div *ngFor="let message of messages">
+                                                    <div class="chat" *ngIf="message.senderUsername == member.username">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar avatar-online" data-toggle="tooltip"
+                                                                data-placement="right">
+                                                                <img src="{{message.senderPhotoUrl || './assets/img/user.png'}}"
+                                                                    alt="{{message.senderUsername}}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                <p>
+                                                                    {{message.content}}
+                                                                    <span class="float-right" (click)="deleteMessage(message.id)" style="cursor: pointer;">
+                                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                        </span>
+                                                                </p>
+                                                                <time class="chat-time"> <span
+                                                                        class="fa fa-clock-o">{{message.messageSent | timeago}}
+                                                                   
+                                                                    </span>
+
+                                                                </time>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="chat chat-left"
+                                                        *ngIf="message.senderUsername != member.username">
+                                                        <div class="chat-avatar">
+                                                            <a class="avatar avatar-online" data-toggle="tooltip"
+                                                                data-placement="left">
+                                                                <img src="{{message.senderPhotoUrl || './assets/img/user.png'}}"
+                                                                    alt="{{message.senderUsername}}">
+                                                            </a>
+                                                        </div>
+                                                        <div class="chat-body">
+                                                            <div class="chat-content">
+                                                                <p>{{message.content}}
+                                                                    <span class="float-right" (click)="deleteMessage(message.id)" style="cursor: pointer;">
+                                                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                        </span>
+                                                                </p>
+                                                                <time class="chat-time"><span
+                                                                        class="fa fa-clock-o">{{message.messageSent | timeago}}
+                                                                        <span class="text-danger"
+                                                                        *ngIf="!message.dateRead && message.senderUsername != member.username">
+                                                                        (Unread)</span>
+                                                                    <span class="text-success"
+                                                                        *ngIf="message.dateRead && message.senderUsername != member.username">
+                                                                        (Read) </span>
+                                                                    </span>
+                                                                </time>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <form #messageForm="ngForm" (ngSubmit)= "sendMessage()" autocomplete="off">
+                                                <div class="input-group">
+                                                    <input required name="messageContent" [(ngModel)]="messageContent" type="text" class="form-control" placeholder="Type Your message here">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-primary" [disabled]="!messageForm.valid" type="submit">Send</button>
+                                                    </span>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <!-- End Panel Chat -->
+                                </div>
+                            </div>
+
                         </tab>
                     </tabset>
                 </div>
@@ -57,5 +143,5 @@
 
         </div>
 
-    </form>
+
 </div>

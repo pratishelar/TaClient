@@ -1,3 +1,28 @@
+<div class="mb-5">
+<form class="form-inline" #form="ngForm" autocomplete="off">
+  <label class="my-1 mr-2" for="minage">From Date</label>
+  <input type="date" name="minAge" class="form-control form-control-sm mr-sm-2" id="minage">
+
+  <label class="my-1 mr-2" for="maxage">To Date</label>
+  <input type="date" name="maxAge" class="form-control form-control-sm mr-sm-2" id="maxage">
+
+  <div class="col">
+    <div class="float-right">
+      <div class="btn btn-secondary btn-sm mr-2" name="orderBy">
+        Bulk Upload
+      </div>
+
+      <div class="btn btn-success btn-sm mr-2" name="orderBy">
+        Download Report
+      </div>
+      <div class="btn btn-danger btn-sm" name="orderBy">
+        Add New
+      </div>
+    </div>
+  </div>
+</form>
+</div>
+
 <tabset type="pills" [justified]="true" *ngIf="events">
   <tab heading="Calender">
     <br /><br /><br />
@@ -22,7 +47,8 @@
       </div>
       <div class="col-md-4">
         <div class="btn-group">
-          <div class="btn btn-primary" (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+          <div class="btn btn-primary" (click)="setView(CalendarView.Month)"
+            [class.active]="view === CalendarView.Month">
             Month
           </div>
           <div class="btn btn-primary" (click)="setView(CalendarView.Week)" [class.active]="view === CalendarView.Week">
@@ -35,78 +61,80 @@
       </div>
     </div>
     <br />
-    
+
     <div [ngSwitch]="view">
       <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
         [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
         (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-month-view>
-      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
-        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-week-view>
-      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
-        (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+        [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+        (eventTimesChanged)="eventTimesChanged($event)">
       </mwl-calendar-day-view>
     </div>
-    
+
   </tab>
   <tab heading="Table">
 
-<br /><br /><br />
+    <br /><br /><br />
 
-<h3>
-  Edit events
-  <button class="btn btn-primary float-right" (click)="addEvent()">
-    Add new
-  </button>
-  <div class="clearfix"></div>
-</h3>
+    <h3>
+      Edit events
+      <button class="btn btn-primary float-right" (click)="addEvent()">
+        Add new
+      </button>
+      <div class="clearfix"></div>
+    </h3>
 
-<div class="table-responsive">
-  <table class="table table-bordered">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Primary color</th>
-        <th>Secondary color</th>
-        <th>Starts at</th>
-        <th>Ends at</th>
-        <th>Remove</th>
-      </tr>
-    </thead>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Primary color</th>
+            <th>Secondary color</th>
+            <th>Starts at</th>
+            <th>Ends at</th>
+            <th>Remove</th>
+          </tr>
+        </thead>
 
-    <tbody>
-      <tr *ngFor="let event of events">
-        <td>
-          <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
-        </td>
-        <td>
-          <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
-        </td>
-        <td>
-          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
-            (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
-            dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
-        </td>
-        <td>
-          <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end" (ngModelChange)="refresh.next()"
-            [altInput]="true" [convertModelValue]="true" [enableTime]="true" dateFormat="Y-m-dTH:i"
-            altFormat="F j, Y H:i" placeholder="Not set" />
-        </td>
-        <td>
-          <button class="btn btn-danger" (click)="deleteEvent(event)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+        <tbody>
+          <tr *ngFor="let event of events">
+            <td>
+              <input type="text" class="form-control" [(ngModel)]="event.title" (keyup)="refresh.next()" />
+            </td>
+            <td>
+              <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
+            </td>
+            <td>
+              <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
+            </td>
+            <td>
+              <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.start"
+                (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+                dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+            </td>
+            <td>
+              <input class="form-control" type="text" mwlFlatpickr [(ngModel)]="event.end"
+                (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true" [enableTime]="true"
+                dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteEvent(event)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </tab>
-  
+
 </tabset>
 
 <!-- Everything you see below is just for the demo, you don't need to include it in your app -->

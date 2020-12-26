@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,9 +33,12 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { FileUploadModule} from 'ng2-file-upload';
+import { MessageComponent } from './message/message.component';
+import { MessageChatComponent } from './message-chat/message-chat.component';
+
 
 @NgModule({
-  declarations: [	
+  declarations: [			
     AppComponent,
     NavbarComponent,
     HomeComponent,
@@ -50,7 +52,9 @@ import { FileUploadModule} from 'ng2-file-upload';
       NotFoundComponent,
       ServerErrorComponent,
       FooterComponent,
-      MemberDetailsComponent
+      MemberDetailsComponent,
+      MessageComponent,
+      MessageChatComponent
    ],
   imports: [
     BrowserModule,

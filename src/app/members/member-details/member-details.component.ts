@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MembersService } from 'src/app/_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { member } from 'src/app/_models/member';
 import { NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { NgxGalleryImage } from '@kolkov/ngx-gallery';
 import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+import { Message } from 'src/app/_models/message';
+import { MessageService } from 'src/app/_services/message.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-member-details',
@@ -12,17 +15,25 @@ import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
   styleUrls: ['./member-details.component.css'],
 })
 export class MemberDetailsComponent implements OnInit {
+  @ViewChild('messageForm') messageForm: NgForm;
+
   member: any = {};
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
+  messages: Message[] =[];
+  messageContent: string;
 
   constructor(
     private memberService: MembersService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private messageService: MessageService
   ) {}
 
   ngOnInit() {
-    this.loadMember();
+    this.route.data.subscribe(data => {
+      this.member = data.member;
+    })
+    this.loadMessageThread();
 
     this.galleryOptions = [
       {
@@ -49,6 +60,7 @@ export class MemberDetailsComponent implements OnInit {
         preview: false
       }
     ];
+    this.galleryImages = this.getImages();
   }
 
   getImages(): NgxGalleryImage[] {
@@ -70,8 +82,29 @@ export class MemberDetailsComponent implements OnInit {
       .getMember(this.route.snapshot.paramMap.get('username')!)
       .subscribe((member) => {
         this.member = member;
-        this.galleryImages = this.getImages();
+        
         console.log(this.member);
       });
   }
+
+  loadMessageThread(){
+    this.messageService.getMessageThread(this.route.snapshot.paramMap.get('username')!).subscribe((messages) => {
+      this.messages = messages;
+    });
+  }
+
+  sendMessage(){
+    this.messageService.sendMessage(this.route.snapshot.paramMap.get('username')!, this.messageContent).subscribe(message =>{
+      this.messages.push(message);
+      this.messageForm.reset();
+    })
+  }
+
+  deleteMessage(id :number){
+    this.messageService.deleteMessage(id).subscribe(() => {
+      this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
+    })
+  }
+
+  
 }
