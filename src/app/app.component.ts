@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from './_services/account.service';
 import { User } from './_models/user';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { PresenceService } from './_services/presence.service';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +16,13 @@ export class AppComponent implements OnInit {
     this.setCurrentUser();
   }
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private presense: PresenceService) {}
 
   setCurrentUser() {
     const user: User = JSON.parse(localStorage.getItem('user')!);
-    this.accountService.setCurrentUser(user);
+    if (user) {
+      this.accountService.setCurrentUser(user);
+      this.presense.createHubConnection(user);
+    }
   }
 }

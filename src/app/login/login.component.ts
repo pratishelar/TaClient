@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   login() {
     this.accountservice.login(this.model).subscribe(
       (response) => {
-        console.log(response);
         this.router.navigateByUrl('/dashboard');
       },
       (error) => {

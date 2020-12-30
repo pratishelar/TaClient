@@ -1,39 +1,58 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ElementRef,
+  AfterViewChecked,
+} from '@angular/core';
 import { MembersService } from 'src/app/_services/members.service';
 import { ActivatedRoute } from '@angular/router';
-import { member } from 'src/app/_models/member';
 import { NgxGalleryOptions } from '@kolkov/ngx-gallery';
 import { NgxGalleryImage } from '@kolkov/ngx-gallery';
 import { NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { Message } from 'src/app/_models/message';
 import { MessageService } from 'src/app/_services/message.service';
 import { NgForm } from '@angular/forms';
+import { PresenceService } from 'src/app/_services/presence.service';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-details',
   templateUrl: './member-details.component.html',
   styleUrls: ['./member-details.component.css'],
 })
-export class MemberDetailsComponent implements OnInit {
+export class MemberDetailsComponent
+  implements OnInit, AfterViewChecked, OnDestroy {
   @ViewChild('messageForm') messageForm: NgForm;
+  @ViewChild('commentEl') comment: ElementRef;
+  scrolledToBottom = false;
 
   member: any = {};
   galleryOptions: NgxGalleryOptions[] = [];
   galleryImages: NgxGalleryImage[] = [];
-  messages: Message[] =[];
+  messages: Message[] = [];
   messageContent: string;
+  user: User;
 
   constructor(
     private memberService: MembersService,
     private route: ActivatedRoute,
-    private messageService: MessageService
-  ) {}
+    public messageService: MessageService,
+    public presence: PresenceService,
+    private accountService: AccountService
+  ) {
+    this.accountService.currentUser$
+      .pipe(take(1))
+      .subscribe((user) => (this.user = user));
+  }
 
   ngOnInit() {
-    this.route.data.subscribe(data => {
+    this.route.data.subscribe((data) => {
       this.member = data.member;
-    })
-    this.loadMessageThread();
+    });
 
     this.galleryOptions = [
       {
@@ -52,20 +71,39 @@ export class MemberDetailsComponent implements OnInit {
         imagePercent: 80,
         thumbnailsPercent: 20,
         thumbnailsMargin: 20,
-        thumbnailMargin: 20
+        thumbnailMargin: 20,
       },
       // max-width 400
       {
         breakpoint: 400,
-        preview: false
-      }
+        preview: false,
+      },
     ];
     this.galleryImages = this.getImages();
+
+    this.loadMessageThread();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom(): void {
+    try {
+      // this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+      if (!this.scrolledToBottom) {
+        this.comment.nativeElement.scrollTop = this.comment.nativeElement.scrollHeight;
+      }
+    } catch (err) {}
+  }
+
+  onScroll() {
+    this.scrolledToBottom = true;
   }
 
   getImages(): NgxGalleryImage[] {
     const imagesUrls = [];
-    console.log(this.member)
+    console.log(this.member);
     for (const photo of this.member.photos) {
       imagesUrls.push({
         small: photo?.url,
@@ -73,38 +111,40 @@ export class MemberDetailsComponent implements OnInit {
         big: photo?.url,
       });
     }
-    console.log(imagesUrls)
+    console.log(imagesUrls);
     return imagesUrls;
   }
 
-  loadMember() {
-    this.memberService
-      .getMember(this.route.snapshot.paramMap.get('username')!)
-      .subscribe((member) => {
-        this.member = member;
-        
-        console.log(this.member);
+  loadMessageThread() {
+    console.log(this.user);
+    console.log(this.member.username);
+    this.messageService.createHubConnection(this.user, this.member.username);
+  }
+
+  ngOnDestroy(): void {
+    this.messageService.stopHubConnection();
+  }
+
+  sendMessage() {
+    this.messageService
+      .sendMessage(
+        this.route.snapshot.paramMap.get('username')!,
+        this.messageContent
+      )
+      .then((message) => {
+        this.messageForm.reset();
+
+        this.scrolledToBottom = false;
+        this.scrollToBottom();
       });
   }
 
-  loadMessageThread(){
-    this.messageService.getMessageThread(this.route.snapshot.paramMap.get('username')!).subscribe((messages) => {
-      this.messages = messages;
+  deleteMessage(id: number) {
+    this.messageService.deleteMessage(id).subscribe(() => {
+      this.messages.splice(
+        this.messages.findIndex((m) => m.id === id),
+        1
+      );
     });
   }
-
-  sendMessage(){
-    this.messageService.sendMessage(this.route.snapshot.paramMap.get('username')!, this.messageContent).subscribe(message =>{
-      this.messages.push(message);
-      this.messageForm.reset();
-    })
-  }
-
-  deleteMessage(id :number){
-    this.messageService.deleteMessage(id).subscribe(() => {
-      this.messages.splice(this.messages.findIndex(m => m.id === id), 1);
-    })
-  }
-
-  
 }

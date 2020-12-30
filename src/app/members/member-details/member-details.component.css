@@ -46,7 +46,7 @@
     list-style: none;
 }
 .tabs{
-    margin-top: 40px;
+    margin-top: 0px;
 }
 
 
@@ -154,6 +154,11 @@
     color: #a3afb7
 }
 
+.panel-body{
+    height: 500px;
+    overflow: scroll;
+}
+
 .panel-footer {
     padding: 0 30px 15px;
     background-color: transparent;
@@ -180,4 +185,13 @@
     vertical-align: bottom;
 }
 
+@keyframes fa-blink {
+	0% {opacity: 1;}
+	100% {opacity: 0.4;}
+}
+
+.is-online{
+	animation: fa-blink 1.5s linear infinite;
+	color: rgb(1, 189, 42);
+}
 

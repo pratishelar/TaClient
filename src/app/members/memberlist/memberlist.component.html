@@ -40,8 +40,12 @@
                     </p>
 
                     <ul>
-                        <li><i class="fa fa-check"></i></li>
-                        <li><a href="#"><i class="fa fa-plus"></i></a></li>
+                        <li>
+                            <span [class.is-online]="(presence.onlineUsers$ | async).includes(member.username)">
+                               <i class="fa fa-circle"></i>
+                            </span>
+                        </li>
+                        
                     </ul>
                 </div>
 

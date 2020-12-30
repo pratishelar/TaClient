@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-        <a class="navbar-brand" routerLink='/' routerLinkActive="active">Get your TA</a>
+        <a class="navbar-brand" routerLink='/' routerLinkActive="active">GTA</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -9,31 +9,50 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto " >
                 <ng-container *ngIf="accountservice.currentUser$ | async">
-                    <li class="nav-item ">
-                        <a class="nav-link" routerLink='/dashboard' routerLinkActive="active">Dashboard</a>
+                    <li class="nav-item text-center" style="font-size: 10px;" >
+                        <a class="nav-link" routerLink='/dashboard' routerLinkActive="active">
+                            <i class="fa fa-tachometer fa-2x" style="color: white;" aria-hidden="true"></i>
+                            <p style="margin: 0px;">Dashboard</p>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink='/create' routerLinkActive="active">TA</a>
+                    <li class="nav-item text-center" style="font-size: 10px;">
+                        <a class="nav-link" routerLink='/create' routerLinkActive="active">
+                            <i class="fa fa-car fa-2x" style="color: white;" aria-hidden="true"></i>
+                            <p style="margin: 0px;">Travel allowance</p>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink='/members' routerLinkActive="active">Users</a>
+                    <li class="nav-item text-center" style="font-size: 10px;">
+                        <a class="nav-link" routerLink='/members' routerLinkActive="active">
+                            <i class="fa fa-users fa-2x" style="color: white;" aria-hidden="true"></i>
+                            <p style="margin: 0px;">Friends</p>
+                        </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink='/messages' routerLinkActive="active">Messages</a>
-                    </li>
+                    <!-- <li class="nav-item text-center" style="font-size: 10px;">
+                        <a class="nav-link" routerLink='/messages' routerLinkActive="active">
+                            <i class="fa fa-comments-o fa-2x" style="color: white;" aria-hidden="true"></i>
+                            <p style="margin: 0px;">Message</p>
+                        </a>
+                    </li> -->
                 </ng-container>
             </ul>
 
-           
-           
+            <!-- <span routerLink='/' routerLinkActive="active" style="color: white;">
+                <i class="fa fa-comments-o fa-2x" aria-hidden="true"></i>
+            </span> -->
+
+            <a class="nav-link text-center" *ngIf="accountservice.currentUser$ | async"
+             style="font-size: 10px;" routerLink='/messageschat' routerLinkActive="active">
+                <i class="fa fa-comments-o fa-2x" style="color: white;" aria-hidden="true"></i>
+                <p style="margin: 0px;">Message</p>
+            </a>
+            
+
             <div *ngIf="accountservice.currentUser$ | async" class="btn-group" dropdown>
-                <button class="btn btn-link" routerLink='/messageschat' routerLinkActive="active">
-                    <i class="fa fa-comments" aria-hidden="true"></i>
-                </button>
+
                 <button id="button-basic" dropdownToggle type="button" class="btn btn-link"
                     aria-controls="dropdown-basic">
-                   
-                     <div class="image_outer_container">
+
+                    <div class="image_outer_container">
                         <div class="green_icon"></div>
                         <div class="image_inner_container">
                             <img src="{{user.photoUrl || './assets/img/user.png'}}" alt="{{user.username}}">
@@ -42,12 +61,9 @@
                     <!-- <div class="name"> {{user.username}}</div> -->
                 </button>
                 <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-                    <li role="menuitem"><a class="dropdown-item" routerLink="/profile" >Profile</a></li>
+                    <li role="menuitem"><a class="dropdown-item" routerLink="/profile">Profile</a></li>
                     <li role="menuitem"><a class="dropdown-item" (click)='logout()'>logout</a></li>
                 </ul>
-               
-
-               
 
             </div>
 

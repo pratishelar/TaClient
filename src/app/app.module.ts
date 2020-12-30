@@ -54,7 +54,7 @@ import { MessageChatComponent } from './message-chat/message-chat.component';
       FooterComponent,
       MemberDetailsComponent,
       MessageComponent,
-      MessageChatComponent
+      MessageChatComponent,
    ],
   imports: [
     BrowserModule,

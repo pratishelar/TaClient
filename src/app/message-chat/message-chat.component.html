@@ -1,10 +1,11 @@
 <div class="container">
   <div class="messaging">
     <div class="inbox_msg">
+
       <div class="inbox_people">
         <div class="headind_srch">
           <div class="recent_heading">
-            <h4>Recent</h4>
+            <h4>Messages</h4>
           </div>
           <div class="srch_bar">
             <div class="stylish-input-group">
@@ -15,8 +16,8 @@
           </div>
         </div>
         <div class="inbox_chat">
-          <div class="chat_list active_chat" *ngFor="let member of members"
-            (click)="loadMessageThread(member.username)">
+          <div class="chat_list" *ngFor="let member of members; let i = index" 
+            (click)="loadMessageThread(member.username)"  [ngClass]="{'active_chat': selectedItem == member}" (click)="listClick($event, member)">
             <div class="chat_people">
               <div class="chat_img"> <img src="{{member.photoUrl || './assets/img/user.png'}}" alt="{{member.firstName}}"> </div>
               <div class="chat_ib">
@@ -39,13 +40,12 @@
       </div>
 
       <div class="mesgs">
-
-        <div class="msg_history">
-          <div *ngIf="messages?.length === 0">
+        <div class="msg_history" #commentEl (scroll)="onScroll()">
+          <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
             No Message to display
           </div>
-          <div *ngIf="messages?.length > 0">
-            <div [hidden]="loading" *ngFor="let message of messages">
+          <div *ngIf="(messageService.messageThread$ | async)?.length > 0" >
+            <div *ngFor="let message of (messageService.messageThread$ | async)">
               <div class="incoming_msg" *ngIf="message.senderUsername != member">
                 <div class="incoming_msg_img"> <img src="{{message.senderPhotoUrl || './assets/img/user.png'}}" alt="">
                 </div>
@@ -69,9 +69,7 @@
                 <div class="outgoing_msg_img ml-2"> <img src="{{message.senderPhotoUrl || './assets/img/user.png'}}" alt="">
                   
                 </div>
-                
                 <div class="sent_msg">
-                  
                   <p> {{message.content}} 
                     <span class="float-right" (click)="deleteMessage(message.id)" style="cursor: pointer;">
                      <i class="fa fa-trash" aria-hidden="true"></i>
@@ -84,7 +82,7 @@
             </div>
           </div>
         </div>
-        <form #messageForm="ngForm" (ngSubmit)= "sendMessage()" autocomplete="off">
+        <form #messageForm="ngForm" (ngSubmit)= "sendMessage()" autocomplete="off" class="pt-5">
         <div class="type_msg">
           <div class="input_msg_write">
             <input required name="messageContent" [(ngModel)]="messageContent" type="text" class="write_msg" placeholder="Type a message" />
@@ -93,7 +91,7 @@
         </div>
         </form>
       </div>
-    </div>
 
+    </div>
   </div>
 </div>

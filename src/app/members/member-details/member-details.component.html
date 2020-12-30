@@ -5,25 +5,29 @@
                 <div class="profile-img">
                     <img src="{{member.photoUrl || './assets/img/user.png'}}" alt="" />
                 </div>
+              
                 <div class="profile-work">
+                    <div class="profile-head">
+                        <h2>
+                            <span>{{member.firstName}} </span>
+                            <span>{{member.lastName}} </span>
+                        </h2>
+                  
+                    </div>
+                    <p>
+                    <span *ngIf="(presence.onlineUsers$ | async).includes(member.username)" 
+                            [class.is-online]="(presence.onlineUsers$ | async).includes(member.username)">
+                        <i class="fa fa-circle"></i>Online
+                     </span>
+                    </p>
                     <p>Location : {{member.city}}, {{member.country}} </p>
                     <p>Age : {{member.age}} </p>
                     <p>Last Active : {{member.lastActive | timeago}} </p>
                     <p>Account Created : {{member.created | date}} </p>
+                    <p>User Name  : {{member.username}} </p>
                 </div>
             </div>
             <div class="col-md-8">
-
-                <div class="profile-head">
-                    <h2>
-                        <span>{{member.firstName}} </span>
-                        <span>{{member.lastName}} </span>
-                    </h2>
-                    <h5>
-                        <span>{{member.username}} </span>
-                    </h5>
-                </div>
-
                 <div class="tabs">
                     <tabset>
                         <tab heading="About" id="tab1">
@@ -41,8 +45,6 @@
                                     </div>
                                 </div>
 
-                                <h3>Photos</h3>
-
                                 <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"
                                     style="display: inline-block; margin-bottom: 20px;"></ngx-gallery>
                             </div>
@@ -55,13 +57,13 @@
                                     <!-- Panel Chat -->
                                     <div class="panel" id="chat">
 
-                                        <div *ngIf="messages?.length === 0">
+                                        <div *ngIf="(messageService.messageThread$ | async)?.length === 0">
                                             No Message to display
                                         </div>
 
-                                        <div class="panel-body" *ngIf="messages?.length > 0">
-                                            <div class="chats">
-                                                <div *ngFor="let message of messages">
+                                        <div  class="panel-body" *ngIf="(messageService.messageThread$ | async)?.length > 0"  #commentEl  (scroll)="onScroll()">
+                                            <div class="chats"  >
+                                                <div *ngFor="let message of (messageService.messageThread$ | async)">
                                                     <div class="chat" *ngIf="message.senderUsername == member.username">
                                                         <div class="chat-avatar">
                                                             <a class="avatar avatar-online" data-toggle="tooltip"
@@ -120,7 +122,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div >
+
                                         <div class="panel-footer">
                                             <form #messageForm="ngForm" (ngSubmit)= "sendMessage()" autocomplete="off">
                                                 <div class="input-group">
